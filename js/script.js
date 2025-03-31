@@ -2,10 +2,10 @@ const nameInput = document.getElementById('name');
 const jobRoleSelect = document.getElementById("title");
 const otherJobRoleInput = document.getElementById("other-job-role");
 
-otherJobRoleInput.style.display = "none";
 
 document.addEventListener('DOMContentLoaded', () => {
   nameInput.focus();
+  otherJobRoleInput.style.display = "none";
 });
 
 jobRoleSelect.addEventListener('change', (e) => {
