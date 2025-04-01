@@ -34,3 +34,23 @@ designSelect.addEventListener("change", (e) => {
     colorOption.hidden = selectedDesign !== dataTheme;
   }
 });
+
+// The total cost of the selected activities
+
+const activitiesFieldset = document.getElementById("activities");
+const totalCostElement = document.getElementById("activities-cost");
+let totalCost = 0;
+
+activitiesFieldset.addEventListener('change', (e) => {
+  const selectedCheckbox = e.target;
+  const cost = parseInt(selectedCheckbox.getAttribute('data-cost'));
+  
+  if (selectedCheckbox.checked) {
+    totalCost += cost;
+  } else {
+    totalCost -= cost;
+  }
+
+  totalCostElement.innerText = `Total: $${totalCost}`;
+});
+
