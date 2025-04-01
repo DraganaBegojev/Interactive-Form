@@ -11,6 +11,7 @@ document.addEventListener('DOMContentLoaded', () => {
   colorSelect.disabled = true;
 });
 
+// otherJobRoleInput is hidden by default and only shown when the user selects "other" from the job role dropdown.
 jobRoleSelect.addEventListener('change', (e) => {
   if (e.target.value === "other") {
     otherJobRoleInput.style.display = "block";
@@ -19,6 +20,8 @@ jobRoleSelect.addEventListener('change', (e) => {
   }
 });
 
+
+// When a design is chosen, the color select element is enabled and the options are filtered based on the selected design.
 designSelect.addEventListener("change", (e) => {
   const selectedDesign = e.target.value;
   colorSelect.disabled = false;
