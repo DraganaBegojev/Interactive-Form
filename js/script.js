@@ -24,12 +24,7 @@ const emailInput = document.getElementById("email");
 const ccNumInput = document.getElementById("cc-num");
 const zipInput = document.getElementById("zip");
 const cvvInput = document.getElementById("cvv");
-const nameHint = document.getElementById("name-hint");
-const emailHint = document.getElementById("email-hint");
-const activitiesHint = document.getElementById("activities-hint");
-const ccNumHint = document.getElementById("cc-hint");
-const zipHint = document.getElementById("zip-hint");
-const cvvHint = document.getElementById("cvv-hint");
+const activitiesBox = document.getElementById("activities-box");
 
 
 
@@ -78,7 +73,7 @@ let totalCost = 0;
 
 activitiesFieldset.addEventListener('change', (e) => {
   const selectedCheckbox = e.target;
-  const cost = parseInt(selectedCheckbox.getAttribute('data-cost'));
+  const cost = parseInt(selectedCheckbox.getAttribute('data-cost'), 10);
   
   if (selectedCheckbox.checked) {
     totalCost += cost;
@@ -114,69 +109,88 @@ const isValidActivities = () => totalCost > 0;
 
 // Function to show/hide hints
 const showHint = (element, isValid) => {
-  const hint = element.nextElementSibling; 
-  hint.style.display = isValid ? "none" : "block";
+  const hint = element.parentElement.querySelector(".hint");
+  if (hint) {
+    hint.style.display = isValid ? "none" : "block";
+  }
+};
+
+//Function to add/reove valid class
+
+const toggleValidClass = (element, isValid) => {
+  const parent = element.parentElement;
+  parent.classList.toggle("valid", isValid);
+  parent.classList.toggle("not-valid", !isValid);
 };
 
 // Function to validate the whole form
-const isValidForm = () => {
+function isValidForm() {
   let valid = true;
 
   // Name
   if (!isValidName(nameInput.value)) {
     showHint(nameInput, false);
+    toggleValidClass(nameInput, false);
     valid = false;
   } else {
     showHint(nameInput, true);
+    toggleValidClass(nameInput, true);
   }
   // Email
   if (!isValidEmail(emailInput.value)) {
     showHint(emailInput, false);
+    toggleValidClass(emailInput, false);
     valid = false;
   } else {
     showHint(emailInput, true);
+    toggleValidClass(emailInput, true);
   }
   // Activities
   if (!isValidActivities()) {
-    showHint(totalCostElement, false);
+    showHint(activitiesBox, false);
+    toggleValidClass(activitiesBox, false);
     valid = false;
   } else {
-    showHint(totalCostElement, true);
+    showHint(activitiesBox, true);
+    toggleValidClass(activitiesBox , true);
   }
- // Credit Card validation (only if Credit Card is selected)
- if (paymentSelect.value === "credit-card") {
-  if (!isValidCCNum(ccNumInput.value)) {
-    showHint(ccNumInput, false);
-    valid = false;
-  } else {
-    showHint(ccNumInput, true);
+  // Credit Card validation (only if Credit Card is selected)
+  if (paymentSelect.value === "credit-card") {
+    if (!isValidCCNum(ccNumInput.value)) {
+      showHint(ccNumInput, false);
+      toggleValidClass(ccNumInput, false);
+      valid = false;
+    } else {
+      showHint(ccNumInput, true);
+      toggleValidClass(ccNumInput, true);
+    }
+
+    if (!isValidZip(zipInput.value)) {
+      showHint(zipInput, false);
+      toggleValidClass(zipInput, false);
+      valid = false;
+    } else {
+      showHint(zipInput, true);
+      toggleValidClass(zipInput, true);
+    }
+
+    if (!isValidCVV(cvvInput.value)) {
+      showHint(cvvInput, false);
+      toggleValidClass(cvvInput, false);
+      valid = false;
+    } else {
+      showHint(cvvInput, true);
+      toggleValidClass(cvvInput, true);
+    }
   }
 
-  if (!isValidZip(zipInput.value)) {
-    showHint(zipInput, false);
-    valid = false;
-  } else {
-    showHint(zipInput, true);
-  }
-
-  if (!isValidCVV(cvvInput.value)) {
-    showHint(cvvInput, false);
-    valid = false;
-  } else {
-    showHint(cvvInput, true);
-  }
+  return valid;
 }
-
-return valid;
-};
 
 // Form submit event listener
 form.addEventListener("submit", (e) => {
   if (!isValidForm()) {
     e.preventDefault(); // Prevent form submission if any field is invalid
-  } else {
-    alert("Form submitted successfully!");
-    form.submit();
   }
 });
 
@@ -184,7 +198,7 @@ form.addEventListener("submit", (e) => {
 
 const checkboxes = activitiesFieldset.querySelectorAll('input[type="checkbox"]');
 
-for (i=0; i < checkboxes.length; i++) {
+for (let i=0; i < checkboxes.length; i++) {
   checkboxes[i].addEventListener('focus', (e) => {
     e.target.parentElement.classList.add('focus');
   });
