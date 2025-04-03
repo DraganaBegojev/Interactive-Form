@@ -179,3 +179,16 @@ form.addEventListener("submit", (e) => {
     form.submit();
   }
 });
+
+// Focus indicators for checkboxes 
+
+const checkboxes = activitiesFieldset.querySelectorAll('input[type="checkbox"]');
+
+for (i=0; i < checkboxes.length; i++) {
+  checkboxes[i].addEventListener('focus', (e) => {
+    e.target.parentElement.classList.add('focus');
+  });
+  checkboxes[i].addEventListener('blur', (e) => {
+    e.target.parentElement.classList.remove('focus');
+  });
+}
