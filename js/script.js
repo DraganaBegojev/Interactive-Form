@@ -1,18 +1,11 @@
 const nameInput = document.getElementById('name');
-
-//Other job role elements
 const jobRoleSelect = document.getElementById("title");
 const otherJobRoleInput = document.getElementById("other-job-role");
-
-// T-shirt info elements
 const designSelect = document.getElementById("design");
 const colorSelect = document.getElementById("color");
-
-// Activities elements
 const activitiesFieldset = document.getElementById("activities");
+const checkboxes = activitiesFieldset.querySelectorAll('input[type="checkbox"]');
 const totalCostElement = document.getElementById("activities-cost");
-
-// Payment method elements
 const paymentSelect = document.getElementById("payment");
 const creditCardSection = document.getElementById("credit-card");
 const paypalSection = document.getElementById("paypal");
@@ -82,8 +75,18 @@ activitiesFieldset.addEventListener('change', (e) => {
   }
 
   totalCostElement.innerText = `Total: $${totalCost}`;
-});
 
+  // Conflicting activities
+  const selectedTime = selectedCheckbox.dataset.dayAndTime;
+  const conflictingTime = document.querySelectorAll(`[data-day-and-time="${selectedTime}"]`);
+
+  for(let i = 0; i < conflictingTime.length; i++) {
+    if (conflictingTime[i] !== selectedCheckbox) {
+      conflictingTime[i].disabled = selectedCheckbox.checked;
+      conflictingTime[i].parentElement.classList.toggle('disabled', selectedCheckbox.checked);
+    }
+  }
+});
 
 // The payment methods display
 
@@ -99,7 +102,10 @@ paymentSelect.addEventListener("change", (e) => {
   document.getElementById(selectedPayment).style.display = "block";
 });
 
+
 // Form validation
+
+// Validation functions
 const isValidEmail = (email) => /^[^@]+@[^@]+\.[a-zA-Z]{2,}$/.test(email);
 const isValidCCNum = (ccNum) => /^\d{13,16}$/.test(ccNum);
 const isValidZip = (zip) => /^\d{5}$/.test(zip); 
@@ -115,7 +121,7 @@ const showHint = (element, isValid) => {
   }
 };
 
-//Function to add/reove valid class
+//Function to add/remove valid class
 
 const toggleValidClass = (element, isValid) => {
   const parent = element.parentElement;
@@ -196,7 +202,6 @@ form.addEventListener("submit", (e) => {
 
 // Focus indicators for checkboxes 
 
-const checkboxes = activitiesFieldset.querySelectorAll('input[type="checkbox"]');
 
 for (let i=0; i < checkboxes.length; i++) {
   checkboxes[i].addEventListener('focus', (e) => {
@@ -206,3 +211,9 @@ for (let i=0; i < checkboxes.length; i++) {
     e.target.parentElement.classList.remove('focus');
   });
 }
+
+
+
+
+
+
