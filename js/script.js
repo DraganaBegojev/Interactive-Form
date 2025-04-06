@@ -202,7 +202,6 @@ form.addEventListener("submit", (e) => {
 
 // Focus indicators for checkboxes 
 
-
 for (let i=0; i < checkboxes.length; i++) {
   checkboxes[i].addEventListener('focus', (e) => {
     e.target.parentElement.classList.add('focus');
@@ -213,6 +212,20 @@ for (let i=0; i < checkboxes.length; i++) {
 }
 
 
+// Real-time validation
+const attachValidation = (inputElement, validationFunction) => {
+  inputElement.addEventListener('keyup', () => {
+    const isValid = validationFunction(inputElement.value);
+    showHint(inputElement, isValid);
+    toggleValidClass(inputElement, isValid);
+  });
+};
+
+attachValidation(nameInput, isValidName);
+attachValidation(emailInput, isValidEmail);
+attachValidation(ccNumInput, isValidCCNum);
+attachValidation(zipInput, isValidZip);
+attachValidation(cvvInput, isValidCVV);
 
 
 
