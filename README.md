@@ -11,12 +11,16 @@ This is achieved by using a keyup event listener on each input field, which call
 
 For example, if the input is empty, the error message will indicate that the field cannot be blank. If the input is invalid (e.g., an email with incorrect formatting), a more specific error message will be shown.
 
+The activities section validates user input in real-time to ensure at least one activity is selected:
+ - Hint Message: If no activity is selected, a hint message is shown to inform the user.
+ - Dynamic Feedback: The message disappears automatically when at least one activity is selected.
+
 
 ## Conditional Error Messages
 
 The form fields feature conditional error messages that provide detailed feedback based on the specific issue with the input.
 
-If the field is left empty, the error message reads: "The input (name or email) field cannot be left blank."
+If the field is left empty, the error message reads: "The input (name,email, card details) field cannot be left blank."
 
 If the input is entered but incorrectly formatted, the error message changes to something like: "Input must be in a valid format (e.g., name@domain.com)."
 

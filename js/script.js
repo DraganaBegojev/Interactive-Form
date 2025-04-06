@@ -261,5 +261,13 @@ attachValidation(cvvInput, isValidCVV, {
 });
 
 
-
+activitiesFieldset.addEventListener('change', () => {
+  if (!isValidActivities()) {
+    showHint(activitiesBox, false); // Display the hint
+    toggleValidClass(activitiesBox, false); // Toggle invalid class
+  } else {
+    showHint(activitiesBox, true); // Hide the hint
+    toggleValidClass(activitiesBox, true); // Toggle valid class
+  }
+});
 
