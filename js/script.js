@@ -21,6 +21,7 @@ const activitiesBox = document.getElementById("activities-box");
 
 
 
+
 // Setup on page load
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -213,19 +214,51 @@ for (let i=0; i < checkboxes.length; i++) {
 
 
 // Real-time validation
-const attachValidation = (inputElement, validationFunction) => {
+const attachValidation = (inputElement, validationFunction, messages) => {
+  const hint = inputElement.parentElement.querySelector('.hint');
+  
   inputElement.addEventListener('keyup', () => {
-    const isValid = validationFunction(inputElement.value);
-    showHint(inputElement, isValid);
+    const value = inputElement.value;
+    let isValid = true;
+
+    if(value === "" && messages.empty) {
+      hint.innerText = messages.empty;
+      isValid = false;
+    } else if (!validationFunction(value)) {
+      hint.innerText = messages.invalid;
+      isValid = false;
+    } else {
+      hint.innerText = ""; // Clear the hint if valid
+    }
     toggleValidClass(inputElement, isValid);
+    showHint(inputElement, isValid);
   });
 };
 
-attachValidation(nameInput, isValidName);
-attachValidation(emailInput, isValidEmail);
-attachValidation(ccNumInput, isValidCCNum);
-attachValidation(zipInput, isValidZip);
-attachValidation(cvvInput, isValidCVV);
+attachValidation(nameInput, isValidName, {
+  empty: "Name field cannot be blank.",
+  invalid: "Name can only contain letters and spaces."
+});
+
+attachValidation(emailInput, isValidEmail, {
+  empty: "Email field cannot be blank.",
+  invalid: "Email must be in a valid format (e.g. name@domain.com)."
+});
+
+attachValidation(ccNumInput, isValidCCNum, {
+  empty: "Credit card number is required.",
+  invalid: "Credit card number must be 13–16 digits."
+});
+
+attachValidation(zipInput, isValidZip, {
+  empty: "ZIP code is required.",
+  invalid: "ZIP code must be exactly 5 digits."
+});
+
+attachValidation(cvvInput, isValidCVV, {
+  empty: "CVV is required.",
+  invalid: "CVV must be exactly 3 digits."
+});
 
 
 
